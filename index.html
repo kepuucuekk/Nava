@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050916">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Arya Journal">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon.svg">
+<title>ARYA — Trading Journal</title>
+<style>
+:root{--bg:#050916;--panel:#081222;--panel2:#0a1427;--line:#263b61;--line2:#172a4b;--text:#eef1ff;--muted:#a8b4d1;--purple:#c45cff;--purple2:#8f42ec;--blue:#258cff;--green:#36d7b0;--gold:#f3ce73;--red:#ff718d;--glow:0 0 24px #8c42f044}
+*{box-sizing:border-box}html{background:#030711;scroll-behavior:smooth}body{margin:0;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:radial-gradient(ellipse at 10% 5%,#17102c 0,transparent 30%),radial-gradient(ellipse at 100% 52%,#071a39 0,transparent 32%),linear-gradient(180deg,#050713,#030916 55%,#050916);min-height:100vh;padding-bottom:calc(106px + env(safe-area-inset-bottom));letter-spacing:.1px}
+button,input,select,textarea{font:inherit}button{cursor:pointer;color:inherit}.app{max-width:760px;margin:auto;padding:0 22px}.top-space{height:calc(42px + env(safe-area-inset-top))}
+.hero{height:230px;position:relative;display:flex;align-items:center;padding:40px 14px 18px;overflow:hidden}
+.hero:before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,#17102caa,transparent 35%,#06142d88 80%);clip-path:polygon(0 0,100% 0,100% 75%,74% 100%,0 100%);opacity:.8}
+.hero:after{content:"";position:absolute;inset:-30px -20px 0 0;opacity:.48;background:repeating-linear-gradient(130deg,transparent 0 130px,#112c5a33 131px 133px,transparent 134px 220px);pointer-events:none}
+.candles{position:absolute;right:0;top:12px;width:65%;height:170px;opacity:.55;display:flex;align-items:flex-start;justify-content:space-around;pointer-events:none}
+.candle{width:18px;position:relative;background:#09265a;height:42px;margin-top:var(--top);box-shadow:0 0 10px #123b7b33}.candle:before{content:"";position:absolute;width:2px;height:calc(100% + 30px);background:#123a78;left:8px;top:-15px;z-index:-1}
+.brand{position:relative;z-index:1;display:flex;align-items:center;gap:22px;margin-top:22px}
+.brand-mark{width:158px;height:132px;filter:drop-shadow(0 0 12px #9c8cff55);flex:none}
+.brand-copy h1{font-size:clamp(40px,8vw,62px);line-height:.95;margin:0 0 13px;font-weight:800;letter-spacing:1px;background:linear-gradient(180deg,#fff,#aab3d0);background-clip:text;color:transparent}
+.brand-copy .sub{font-size:clamp(13px,3vw,19px);letter-spacing:5px;font-weight:800;white-space:nowrap}
+.brand-copy .tag{font-size:12px;letter-spacing:4px;color:#b6c0dc;margin-top:18px;white-space:nowrap}
+.hero-actions{position:absolute;right:0;top:34px;z-index:3;display:flex;gap:14px}
+.round{width:82px;height:82px;border-radius:50%;border:2px solid #34466a;background:linear-gradient(145deg,#101b33,#050b19);display:grid;place-items:center;box-shadow:inset 0 0 18px #111b36,0 8px 20px #0008}
+.round.crown{border-color:#a34de5;box-shadow:0 0 20px #a34de544,inset 0 0 18px #36134b}
+.round svg{width:38px;height:38px}
+.stat-main{position:relative;display:grid;grid-template-columns:1fr 1fr;min-height:204px;border:1.5px solid #34558c;border-radius:42px;background:linear-gradient(115deg,#090d1b,#050c1b 55%,#081a35);box-shadow:0 0 0 1px #4a2c7c55,0 12px 32px #0008;overflow:hidden;margin:0 0 22px}
+.stat-main:before{content:"";position:absolute;left:0;top:0;width:34%;height:100%;background:linear-gradient(135deg,#28134499,#101a3b66 75%,transparent);border-top-left-radius:40px}
+.stat-main:after{content:"";position:absolute;left:-35px;top:-10px;width:320px;height:120%;background:repeating-linear-gradient(135deg,transparent 0 37px,#bd4cff 38px 44px,transparent 45px 75px,#238cff 76px 80px,transparent 81px 110px);opacity:.88;clip-path:polygon(0 0,100% 0,100% 40%,0 100%);pointer-events:none}
+.stat-cell{position:relative;z-index:1;padding:30px 28px 25px;display:flex;flex-direction:column;justify-content:center;min-width:0}
+.stat-cell+ .stat-cell{border-left:2px solid #d9e1ff; margin:30px 0;padding-left:32px}
+.label{display:flex;align-items:center;gap:14px;color:#c4cce0;font-size:clamp(17px,3vw,23px);white-space:nowrap}
+.label svg{width:38px;height:38px;color:var(--purple)}
+.big{font-size:clamp(42px,7.4vw,58px);font-weight:800;line-height:1.12;margin:12px 0 6px;letter-spacing:-1px}
+.submetric{font-size:clamp(17px,3vw,23px);font-weight:700;color:var(--green);white-space:nowrap}
+.win .big{margin-top:14px}.win .submetric{color:#aebbd9;font-weight:500}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+.mini{min-height:145px;border:1.5px solid #2b426b;border-radius:32px;background:linear-gradient(145deg,#0b1529,#050b18);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;box-shadow:inset 0 0 18px #16254422}
+.mini svg{width:44px;height:44px;color:var(--purple)}
+.mini:nth-child(2) svg{color:var(--gold)}.mini:nth-child(4) svg{color:#78aaff}
+.mini .mini-label{font-size:17px;color:#c1cbe1}.mini strong{font-size:30px;line-height:1.1}
+.panel{border:1.5px solid #2c426b;border-radius:42px;background:linear-gradient(145deg,#0a1223,#050b18 62%,#07172e);box-shadow:0 12px 28px #0006,inset 0 0 22px #182b4d22;margin-bottom:24px;overflow:hidden;position:relative}
+.panel:before{content:"";position:absolute;left:0;top:0;width:100%;height:100%;background:linear-gradient(135deg,#7c39bf12,transparent 25%,transparent 75%,#146ac012);pointer-events:none}
+.panel-head{display:flex;align-items:center;justify-content:space-between;padding:25px 28px 12px;position:relative;z-index:1}
+.panel-title{display:flex;align-items:center;gap:16px;font-size:30px;font-weight:800;color:#e2d4ff}
+.panel-title svg{width:44px;height:44px;color:var(--purple)}
+.pill-select{border:1.5px solid #4b6087;background:#0a1428;border-radius:28px;padding:12px 18px;color:#eef2ff;font-weight:650;font-size:18px;outline:none}
+.chart-wrap{height:235px;padding:8px 24px 22px;position:relative;z-index:1}
+#equityChart{width:100%;height:100%;overflow:visible}
+.empty-chart{position:absolute;inset:40% 10px auto;text-align:center;color:#8190b0;font-size:16px;pointer-events:none}
+.cta{width:100%;height:84px;border-radius:30px;border:1.5px solid #8e42d9;background:linear-gradient(100deg,#211039,#0c1832 54%,#071d3b);box-shadow:0 0 20px #8e42d933,inset 0 0 18px #1d2b50;display:flex;align-items:center;justify-content:center;gap:18px;font-size:30px;font-weight:800;color:#e0c6ff;position:relative;overflow:hidden;margin:4px 0 28px}
+.cta:before{content:"";position:absolute;left:-50px;top:-40px;width:280px;height:160px;border:2px solid #a84df2;transform:skewX(-42deg);opacity:.75}
+.cta:after{content:"";position:absolute;right:-65px;top:-40px;width:220px;height:160px;border:2px solid #278bff;transform:skewX(-42deg);opacity:.8}
+.plus{width:58px;height:58px;border-radius:50%;background:linear-gradient(145deg,#e0a0ff,#8438e7);color:#100a22;display:grid;place-items:center;font-size:40px;line-height:1;box-shadow:0 0 20px #b55cff66;z-index:1}
+.cta span:not(.plus){z-index:1}.cta .arrow{position:absolute;right:28px;font-size:38px;color:#c7d7ff}
+.section-head{display:flex;align-items:center;justify-content:space-between;margin:0 4px 18px;font-size:27px;font-weight:800}
+.section-head small{font-size:18px;color:#c4cee7;font-weight:700}
+.recent-list{display:grid;gap:12px;margin-bottom:26px}
+.trade-row{display:flex;align-items:center;gap:16px;border:1px solid #263b5e;border-radius:28px;background:linear-gradient(120deg,#0b1529,#060c19);padding:18px 20px}
+.trade-symbol{width:52px;height:52px;border-radius:16px;background:#111c32;display:grid;place-items:center;color:#f1cf78;font-size:27px}
+.trade-info{flex:1;min-width:0}.trade-info strong{font-size:20px}.trade-info small{display:block;color:#a9b6d2;margin-top:8px;font-size:15px}
+.trade-result{text-align:right;font-size:22px;font-weight:800;color:var(--green)}.trade-result.loss{color:var(--red)}
+.badge{display:inline-block;border:1px solid #8d45d5;border-radius:18px;padding:3px 10px;color:#e4c1ff;font-size:13px;margin-left:8px;background:#361657}
+.empty-box{border:1px solid #263b5e;border-radius:28px;padding:28px;text-align:center;color:#8492b0;background:#081222;font-size:17px}
+.goal-panel{padding:28px}.goal-panel h2{margin:0 0 24px;font-size:28px}.goal-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.field label{display:block;color:#b8c5e2;font-weight:650;margin-bottom:9px}.field input,.field select,.field textarea{width:100%;border:1px solid #344b73;border-radius:16px;background:#050c1b;color:#f2f4ff;padding:14px 15px;outline:none}.field input:focus,.field select:focus,.field textarea:focus{border-color:#b65cff;box-shadow:0 0 0 3px #a14cff22}
+.progress{height:12px;background:#182541;border-radius:20px;margin-top:12px;overflow:hidden}.progress span{height:100%;display:block;background:linear-gradient(90deg,#b34cff,#248bff);width:0}
+.bottom-nav{position:fixed;z-index:20;bottom:0;left:0;right:0;padding:12px 10px calc(12px + env(safe-area-inset-bottom));background:#030815f5;border-top:1px solid #31466b;display:grid;grid-template-columns:repeat(5,1fr);backdrop-filter:blur(18px)}
+.nav-btn{border:0;background:transparent;color:#aebbd8;display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 2px;border-radius:24px;font-size:16px}
+.nav-btn svg{width:37px;height:37px;filter:drop-shadow(0 0 5px #aabaff66)}
+.nav-btn.active{color:#e5baff;background:linear-gradient(180deg,#21133799,transparent);text-shadow:0 0 12px #bb65ff}
+.nav-btn.active svg{color:#dfa0ff;filter:drop-shadow(0 0 9px #b34cff)}
+.page{display:none}.page.active{display:block}
+.subpage-title{font-size:32px;font-weight:800;margin:18px 4px 22px;color:#e4d4ff}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.action{border:1px solid #475c84;border-radius:15px;padding:11px 15px;background:#0b1730;color:#dfe7ff;font-weight:650}
+.action.primary{background:linear-gradient(100deg,#8d3ee0,#286fce);border:0;color:white}
+.form-card{padding:24px;margin-bottom:24px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.form-card h2{margin:0 0 22px;font-size:26px}.form-card .field.full{grid-column:1/-1}.form-actions{display:flex;gap:12px;margin-top:22px}.form-actions button{flex:1}
+.notice{font-size:13px;color:#93a3c4;margin-top:8px;line-height:1.5}
+.metric-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:22px}.metric-box{padding:20px;border:1px solid #2b426b;border-radius:22px;background:#091426}.metric-box small{color:#aebbd5}.metric-box strong{display:block;font-size:28px;margin-top:8px}
+.calendar{padding:22px}.cal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.cal-grid span{padding:12px 2px;text-align:center;border-radius:10px;font-size:14px}.cal-grid .day{color:#8796b5}.cal-grid .date{background:#0b172c;border:1px solid #1c3154;min-height:48px}.cal-grid .profit{border-color:#1e8d78;color:#4be0bb}.cal-grid .loss{border-color:#a74760;color:#ff8ba1}
+.modal-backdrop{position:fixed;inset:0;background:#000b;z-index:40;display:none;align-items:flex-end;justify-content:center;padding:12px}.modal-backdrop.show{display:flex}.modal{width:min(100%,650px);max-height:92vh;overflow:auto;border:1px solid #4c4781;border-radius:30px;background:linear-gradient(145deg,#10152a,#050b19);padding:24px;box-shadow:0 0 40px #000b}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.modal-head h2{margin:0;font-size:25px}.close{border:0;background:#1a2540;border-radius:50%;width:40px;height:40px;font-size:24px}
+.toast{position:fixed;z-index:60;bottom:120px;left:50%;transform:translateX(-50%);background:#172844;border:1px solid #8151bd;color:#fff;padding:12px 18px;border-radius:20px;display:none;box-shadow:var(--glow);max-width:90%;text-align:center}
+@media(max-width:520px){.app{padding:0 16px}.hero{height:220px;padding-left:10px}.brand{gap:12px}.brand-mark{width:118px;height:112px}.hero-actions{top:24px;gap:8px}.round{width:58px;height:58px}.round svg{width:28px;height:28px}.brand-copy h1{font-size:40px}.brand-copy .sub{font-size:12px;letter-spacing:3px}.brand-copy .tag{font-size:9px;letter-spacing:2.5px;margin-top:12px}.stat-main{min-height:204px;border-radius:34px}.stat-cell{padding:22px 16px}.stat-cell+.stat-cell{padding-left:20px}.label{font-size:16px;gap:8px}.label svg{width:30px;height:30px}.big{font-size:42px}.submetric{font-size:16px}.cards{gap:9px}.mini{min-height:116px;border-radius:25px;gap:6px}.mini svg{width:36px;height:36px}.mini .mini-label{font-size:13px}.mini strong{font-size:24px}.panel{border-radius:34px}.panel-head{padding:20px 18px 10px}.panel-title{font-size:24px;gap:10px}.panel-title svg{width:36px;height:36px}.pill-select{font-size:14px;padding:10px 12px}.chart-wrap{height:210px;padding:8px 14px 18px}.cta{height:76px;font-size:25px;border-radius:26px}.plus{width:52px;height:52px}.section-head{font-size:22px}.section-head small{font-size:15px}.trade-row{padding:14px 12px;gap:10px}.trade-symbol{width:44px;height:44px}.trade-info strong{font-size:17px}.trade-info small{font-size:12px}.trade-result{font-size:18px}.nav-btn{font-size:13px}.nav-btn svg{width:32px;height:32px}.bottom-nav{padding-top:8px}.form-grid{grid-template-columns:1fr}.form-card .field.full{grid-column:auto}.goal-grid{grid-template-columns:1fr}.top-space{height:calc(24px + env(safe-area-inset-top))}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top-space"></div>
+  <header class="hero">
+    <div class="candles" aria-hidden="true">
+      <i class="candle" style="--top:70px;height:32px"></i><i class="candle" style="--top:48px;height:48px"></i><i class="candle" style="--top:25px;height:38px"></i><i class="candle" style="--top:58px;height:40px"></i><i class="candle" style="--top:8px;height:52px"></i><i class="candle" style="--top:42px;height:31px"></i><i class="candle" style="--top:0px;height:54px"></i><i class="candle" style="--top:34px;height:45px"></i><i class="candle" style="--top:12px;height:40px"></i>
+    </div>
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 180 150" role="img" aria-label="Arya logo">
+        <defs><linearGradient id="metal" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff"/><stop offset=".3" stop-color="#aeb8d5"/><stop offset=".52" stop-color="#f7f8ff"/><stop offset=".75" stop-color="#586b91"/><stop offset="1" stop-color="#dfe5ff"/></linearGradient><linearGradient id="edge" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#7184ac"/></linearGradient></defs>
+        <path d="M12 132 70 12 128 132 94 132 70 75 43 132Z" fill="url(#metal)" stroke="url(#edge)" stroke-width="2"/>
+        <path d="M57 132 111 74 163 132 128 132 111 108 88 132Z" fill="url(#metal)" stroke="url(#edge)" stroke-width="2"/>
+        <path d="M70 12 92 59 70 75 49 132 12 132Z" fill="#fff" opacity=".12"/>
+        <path d="M111 74 165 48 130 87" fill="none" stroke="#e6eaff" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <div class="brand-copy"><h1>ARYA</h1><div class="sub">TRADING JOURNAL</div><div class="tag">PLAN&nbsp; • &nbsp;EXECUTE&nbsp; • &nbsp;IMPROVE</div></div>
+    </div>
+    <div class="hero-actions">
+      <button class="round crown" id="goalShortcut" aria-label="Monthly goal"><svg viewBox="0 0 24 24" fill="#f2ce73" stroke="#f2ce73" stroke-width="1.5"><path d="m3 7 5 4 4-7 4 7 5-4-2 12H5L3 7Z"/></svg></button>
+      <button class="round" id="settingsShortcut" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="#dce5ff" stroke-width="1.8"><path d="M12 8.2a3.8 3.8 0 1 0 0 7.6 3.8 3.8 0 0 0 0-7.6Z"/><path d="m19.4 13.5 1.2.9-1.2 2.1-1.4-.6a7.7 7.7 0 0 1-1.6.9l-.2 1.5h-2.4l-.3-1.5a7.7 7.7 0 0 1-1.7-.9l-1.3.6-1.2-2.1 1.2-.9a7.2 7.2 0 0 1 0-1.9l-1.2-.9 1.2-2.1 1.3.6a7.7 7.7 0 0 1 1.7-.9l.3-1.5h2.4l.2 1.5a7.7 7.7 0 0 1 1.6.9l1.4-.6 1.2 2.1-1.2.9a7.2 7.2 0 0 1 0 1.9Z" transform="translate(-1 -1)"/></svg></button>
+    </div>
+  </header>
+
+  <main>
+    <section class="page active" id="dashboardPage">
+      <div class="stat-main">
+        <div class="stat-cell">
+          <div class="label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 20h18M5 17V9h3v8M10 17V5h3v12M15 17v-6h3v6M4 7l5-4 4 2 7-5"/></svg> Total P/L</div>
+          <div class="big" id="totalPL">$0.00</div><div class="submetric" id="performance">◆ 0 recorded trades</div>
+        </div>
+        <div class="stat-cell win">
+          <div class="label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="10" cy="14" r="7"/><circle cx="10" cy="14" r="3"/><path d="m14.5 9.5 7-7m-5 0h5v5"/></svg> Win Rate</div>
+          <div class="big" id="winRate">0.0%</div><div class="submetric" id="winLoss">0W / 0L</div>
+        </div>
+      </div>
+      <div class="cards">
+        <div class="mini"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="10" width="4" height="11" rx="1"/><rect x="10" y="3" width="4" height="18" rx="1"/><rect x="17" y="7" width="4" height="14" rx="1"/></svg><div class="mini-label">Total Trades</div><strong id="totalTrades">0</strong></div>
+        <div class="mini"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 3h8v3l-2 3v3l4 5v3H6v-3l4-5V9L8 6V3Z"/><path d="M8 6h8M7 17h10"/></svg><div class="mini-label">Best Trade</div><strong id="bestTrade">$0.00</strong></div>
+        <div class="mini"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 9h18M8 13h3M8 17h3M15 13h2"/></svg><div class="mini-label">This Month</div><strong id="monthPL">$0.00</strong></div>
+        <div class="mini"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg><div class="mini-label">Avg R/R</div><strong id="avgRR">—</strong></div>
+      </div>
+      <section class="panel">
+        <div class="panel-head"><div class="panel-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 20h18M5 17V9h3v8M10 17V5h3v12M15 17v-6h3v6M4 7l5-4 4 2 7-5"/></svg> Equity Curve</div><select class="pill-select" id="chartRange"><option value="7">Last 7 Days</option><option value="30">Last 30 Days</option><option value="all">All Time</option></select></div>
+        <div class="chart-wrap"><svg id="equityChart" viewBox="0 0 700 210" preserveAspectRatio="none"></svg><div class="empty-chart" id="chartEmpty">Catat trade pertamamu untuk melihat Equity Curve</div></div>
+      </section>
+      <button class="cta" id="addTradeBtn"><span class="plus">+</span><span>Catat Trade</span><span class="arrow">›</span></button>
+      <div class="section-head"><span>▤ &nbsp;Recent Journal</span><small id="seeAll">Lihat Semua&nbsp; ›</small></div>
+      <div class="recent-list" id="recentList"><div class="empty-box">Belum ada transaksi. Mulai catat trade pertamamu.</div></div>
+      <section class="panel goal-panel" id="monthlyGoalPanel">
+        <h2>Monthly Goal</h2>
+        <div class="goal-grid"><div class="field"><label>Target profit bulanan ($)</label><input id="goalInput" type="number" min="0" step="0.01" placeholder="Contoh: 500"></div><div><label style="color:#b8c5e2;font-weight:650">Progress bulan ini</label><div style="font-size:30px;font-weight:800;margin-top:8px" id="goalProgressText">$0.00</div><div class="progress"><span id="goalProgressBar"></span></div></div></div>
+      </section>
+    </section>
+
+    <section class="page" id="journalPage">
+      <h2 class="subpage-title">Trading Journal</h2>
+      <div class="toolbar"><button class="action primary" id="journalAdd">＋ Catat Trade</button><button class="action" id="exportCSV">Export CSV</button></div>
+      <div class="recent-list" id="journalList"></div>
+    </section>
+
+    <section class="page" id="calendarPage">
+      <h2 class="subpage-title">Trading Calendar</h2>
+      <section class="panel calendar"><div class="cal-head"><button class="action" id="prevMonth">‹</button><strong id="calTitle">Month</strong><button class="action" id="nextMonth">›</button></div><div class="cal-grid" id="calendarGrid"></div><div class="notice">Angka pada kalender menunjukkan hasil bersih trade pada tanggal tersebut.</div></section>
+    </section>
+
+    <section class="page" id="analyticsPage">
+      <h2 class="subpage-title">Analytics</h2>
+      <div class="metric-grid" id="analyticsMetrics"></div>
+      <section class="panel"><div class="panel-head"><div class="panel-title">Pair Performance</div></div><div id="pairStats" style="padding:10px 24px 24px"></div></section>
+    </section>
+
+    <section class="page" id="toolsPage">
+      <h2 class="subpage-title">Tools & Settings</h2>
+      <section class="panel form-card">
+        <h2>Data Management</h2>
+        <div class="toolbar"><button class="action primary" id="backupBtn">Download Backup</button><button class="action" id="restoreBtn">Import Backup</button><input type="file" id="restoreFile" accept=".json,application/json" hidden></div>
+        <p class="notice">Data tersimpan secara lokal di browser/perangkat ini. Download backup secara berkala agar data tetap aman saat pindah browser atau perangkat.</p>
+      </section>
+      <section class="panel form-card">
+        <h2>Account Settings</h2>
+        <div class="field"><label>Nama akun</label><input id="accountName" value="ARYA TRADING JOURNAL"></div>
+        <div class="field" style="margin-top:16px"><label>Mata uang</label><select id="currency"><option value="$">USD ($)</option><option value="Rp">IDR (Rp)</option></select></div>
+        <div class="form-actions"><button class="action primary" id="saveSettings">Simpan Pengaturan</button></div>
+      </section>
+      <section class="panel form-card"><h2>About</h2><p style="color:#aebbd5;line-height:1.7">ARYA Trading Journal<br>Plan • Execute • Improve<br><span class="notice">V6 — Fresh standalone build</span></p></section>
+    </section>
+  </main>
+</div>
+
+<nav class="bottom-nav">
+  <button class="nav-btn active" data-page="dashboardPage"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m3 11 9-8 9 8v10h-6v-6H9v6H3Z"/></svg>Dashboard</button>
+  <button class="nav-btn" data-page="journalPage"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="6" y="3" width="15" height="18" rx="2"/><path d="M3 6v15h15M9 8h9M9 12h9M9 16h7"/></svg>Journal</button>
+  <button class="nav-btn" data-page="calendarPage"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 9h18M8 13h3M14 13h3M8 17h3"/></svg>Calendar</button>
+  <button class="nav-btn" data-page="analyticsPage"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V9h4v11M10 20V3h4v17M16 20v-8h4v8"/></svg>Analytics</button>
+  <button class="nav-btn" data-page="toolsPage"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m14 6 4-4 4 4-4 4M13 7l4 4-8 8H5v-4Z"/></svg>Tools</button>
+</nav>
+
+<div class="modal-backdrop" id="tradeModal">
+  <div class="modal">
+    <div class="modal-head"><h2>Catat Trade Baru</h2><button class="close" id="closeModal">×</button></div>
+    <form id="tradeForm">
+      <div class="form-grid">
+        <div class="field"><label>Pair</label><select id="pair"><option>XAUUSD</option><option>NAS100</option><option>BTCUSD</option><option>EURUSD</option></select></div>
+        <div class="field"><label>Direction</label><select id="direction"><option>Buy</option><option>Sell</option></select></div>
+        <div class="field"><label>Date & Time</label><input type="datetime-local" id="tradeDate" required></div>
+        <div class="field"><label>Lot Size</label><select id="lot"></select></div>
+        <div class="field"><label>Entry Price</label><input type="number" id="entry" step="any" placeholder="0.00" required></div>
+        <div class="field"><label>Stop Loss</label><input type="number" id="sl" step="any" placeholder="0.00" required></div>
+        <div class="field"><label>Take Profit</label><input type="number" id="tp" step="any" placeholder="0.00" required></div>
+        <div class="field"><label>Risk Amount ($)</label><input type="number" id="risk" min="0.01" step="0.01" placeholder="25.00" required></div>
+        <div class="field"><label>Result</label><select id="result"><option value="TP">TP</option><option value="SL">SL</option></select></div>
+        <div class="field"><label>Risk / Reward</label><input id="rrPreview" readonly value="—"></div>
+        <div class="field full"><label>Setup / Notes (optional)</label><textarea id="notes" rows="3" placeholder="Contoh: Breakout retest + FVG"></textarea></div>
+      </div>
+      <p class="notice">P/L dihitung otomatis dari Risk Amount dan rasio Entry–SL–TP. Pastikan nilai risk sesuai risiko aktual trade-mu.</p>
+      <div class="form-actions"><button type="button" class="action" id="cancelTrade">Batal</button><button type="submit" class="action primary">Simpan Trade</button></div>
+    </form>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const $=id=>document.getElementById(id);
+const KEY='arya_trading_journal_v6_data';
+let trades=[], settings={currency:'$',accountName:'ARYA TRADING JOURNAL'}, calDate=new Date();
+try{const saved=JSON.parse(localStorage.getItem(KEY)||'{}');trades=Array.isArray(saved.trades)?saved.trades:[];settings={...settings,...(saved.settings||{})}}catch(e){}
+const money=n=>(settings.currency||'$')+Number(n||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const dateFmt=s=>new Date(s).toLocaleString('id-ID',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+function persist(){localStorage.setItem(KEY,JSON.stringify({trades,settings}));}
+function toast(msg){$('toast').textContent=msg;$('toast').style.display='block';setTimeout(()=>$('toast').style.display='none',2500)}
+function stats(){const wins=trades.filter(t=>t.pnl>0),losses=trades.filter(t=>t.pnl<=0),pl=trades.reduce((a,t)=>a+t.pnl,0),best=trades.reduce((a,t)=>Math.max(a,t.pnl),0),now=new Date(),month=trades.filter(t=>{const d=new Date(t.date);return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear()}).reduce((a,t)=>a+t.pnl,0),rr=trades.length?trades.reduce((a,t)=>a+t.rr,0)/trades.length:0;return{wins,losses,pl,best,month,rr,rate:trades.length?wins.length/trades.length*100:0}}
+function render(){const s=stats();$('totalPL').textContent=(s.pl>0?'+':'')+money(s.pl);$('totalPL').style.color=s.pl<0?'var(--red)':'var(--text)';$('performance').textContent='◆ '+trades.length+' recorded trades';$('winRate').textContent=s.rate.toFixed(1)+'%';$('winLoss').textContent=s.wins.length+'W / '+s.losses.length+'L';$('totalTrades').textContent=trades.length;$('bestTrade').textContent=money(s.best);$('monthPL').textContent=(s.month>0?'+':'')+money(s.month);$('avgRR').textContent=trades.length?'1:'+s.rr.toFixed(2):'—';renderRecent();renderChart();renderCalendar();renderAnalytics();renderGoal();}
+function row(t){return `<div class="trade-row"><div class="trade-symbol">◆</div><div class="trade-info"><strong>${escapeHtml(t.pair)} <span class="badge">${escapeHtml(t.direction)}</span></strong><small>${dateFmt(t.date)}${t.notes?' · '+escapeHtml(t.notes):''}</small></div><div class="trade-result ${t.pnl<0?'loss':''}">${t.pnl>0?'+':''}${money(t.pnl)}<div><span class="badge">${t.result} ✓</span></div></div></div>`}
+function escapeHtml(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function renderRecent(){const sorted=[...trades].sort((a,b)=>new Date(b.date)-new Date(a.date));$('recentList').innerHTML=sorted.length?sorted.slice(0,3).map(row).join(''):'<div class="empty-box">Belum ada transaksi. Mulai catat trade pertamamu.</div>';$('journalList').innerHTML=sorted.length?sorted.map(t=>row(t)+`<div style="text-align:right;margin-top:-4px;margin-bottom:6px"><button class="action" onclick="deleteTrade('${t.id}')">Hapus</button></div>`).join(''):'<div class="empty-box">Belum ada trade tercatat.</div>'}
+function renderChart(){const svg=$('equityChart'),range=$('chartRange').value,cut=new Date();if(range!=='all')cut.setDate(cut.getDate()-Number(range));let list=[...trades].filter(t=>range==='all'||new Date(t.date)>=cut).sort((a,b)=>new Date(a.date)-new Date(b.date));svg.innerHTML='';for(let i=0;i<5;i++){const y=20+i*42;svg.innerHTML+=`<line x1="0" y1="${y}" x2="700" y2="${y}" stroke="#253653" stroke-width="1"/>`};for(let i=0;i<7;i++){const x=i*116;svg.innerHTML+=`<line x1="${x}" y1="10" x2="${x}" y2="190" stroke="#1e304d" stroke-width="1"/>`};$('chartEmpty').style.display=list.length?'none':'block';if(!list.length)return;let cum=0,vals=list.map(t=>(cum+=t.pnl)),min=Math.min(0,...vals),max=Math.max(1,...vals),span=max-min||1;const pts=vals.map((v,i)=>({x:20+(list.length===1?0:i*660/(list.length-1)),y:180-(v-min)/span*145}));let d=pts.map((p,i)=>(i?'L':'M')+p.x+' '+p.y).join(' ');svg.innerHTML+=`<defs><linearGradient id="area" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#9161ff" stop-opacity=".45"/><stop offset="1" stop-color="#287dff" stop-opacity=".02"/></linearGradient><linearGradient id="line" x1="0" x2="1"><stop stop-color="#c46cff"/><stop offset="1" stop-color="#5a9dff"/></linearGradient></defs><path d="${d} L ${pts[pts.length-1].x} 190 L ${pts[0].x} 190 Z" fill="url(#area)"/><path d="${d}" fill="none" stroke="url(#line)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>`;pts.forEach(p=>svg.innerHTML+=`<circle cx="${p.x}" cy="${p.y}" r="6" fill="#b68cff" stroke="#e9d7ff" stroke-width="2"/>`)}
+function renderGoal(){const target=Number($('goalInput').value||0),m=stats().month,pct=target>0?Math.max(0,Math.min(100,m/target*100)):0;$('goalProgressText').textContent=money(m);$('goalProgressBar').style.width=pct+'%'}
+function renderCalendar(){const y=calDate.getFullYear(),m=calDate.getMonth(),first=new Date(y,m,1).getDay(),days=new Date(y,m+1,0).getDate();$('calTitle').textContent=calDate.toLocaleDateString('en-US',{month:'long',year:'numeric'});let html=['Min','Sen','Sel','Rab','Kam','Jum','Sab'].map(x=>`<span class="day">${x}</span>`).join('');for(let i=0;i<first;i++)html+='<span></span>';for(let d=1;d<=days;d++){const dayTrades=trades.filter(t=>{const x=new Date(t.date);return x.getFullYear()===y&&x.getMonth()===m&&x.getDate()===d}),sum=dayTrades.reduce((a,t)=>a+t.pnl,0);html+=`<span class="date ${sum>0?'profit':sum<0?'loss':''}" title="${dayTrades.length} trade">${d}${dayTrades.length?'<br><small>'+((sum>0?'+':'')+Math.round(sum))+'</small>':''}</span>`}$('calendarGrid').innerHTML=html}
+function renderAnalytics(){const s=stats(),profitFactor=(()=>{let g=trades.filter(t=>t.pnl>0).reduce((a,t)=>a+t.pnl,0),l=Math.abs(trades.filter(t=>t.pnl<0).reduce((a,t)=>a+t.pnl,0));return l?g/l:g? '∞':'—'})();$('analyticsMetrics').innerHTML=[['Net P/L',money(s.pl)],['Win Rate',s.rate.toFixed(1)+'%'],['Profit Factor',profitFactor],['Average R/R',trades.length?'1:'+s.rr.toFixed(2):'—'],['Winning Trades',s.wins.length],['Losing Trades',s.losses.length]].map(a=>`<div class="metric-box"><small>${a[0]}</small><strong>${a[1]}</strong></div>`).join('');let pairs=['XAUUSD','NAS100','BTCUSD','EURUSD'];$('pairStats').innerHTML=pairs.map(p=>{let arr=trades.filter(t=>t.pair===p),v=arr.reduce((a,t)=>a+t.pnl,0);return `<div style="display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid #203452"><span>${p} <small style="color:#8797b6">(${arr.length})</small></span><strong style="color:${v<0?'var(--red)':'var(--green)'}">${money(v)}</strong></div>`}).join('')}
+function deleteTrade(id){if(!confirm('Hapus trade ini?'))return;trades=trades.filter(t=>t.id!==id);persist();render();toast('Trade dihapus')}
+function showModal(){const now=new Date();$('tradeDate').value=new Date(now.getTime()-now.getTimezoneOffset()*60000).toISOString().slice(0,16);$('tradeModal').classList.add('show')}
+function hideModal(){$('tradeModal').classList.remove('show')}
+function calcRR(){const e=Number($('entry').value),sl=Number($('sl').value),tp=Number($('tp').value),risk=Math.abs(e-sl),reward=Math.abs(tp-e);$('rrPreview').value=risk>0&&reward>0?'1:'+(reward/risk).toFixed(2):'—'}
+['entry','sl','tp'].forEach(id=>$(id).addEventListener('input',calcRR));
+for(let i=1;i<=50;i++)$('lot').insertAdjacentHTML('beforeend',`<option value="${(i/100).toFixed(2)}">${(i/100).toFixed(2)}</option>`);
+$('tradeForm').addEventListener('submit',e=>{e.preventDefault();const entry=Number($('entry').value),sl=Number($('sl').value),tp=Number($('tp').value),risk=Number($('risk').value),direction=$('direction').value;if(!entry||!sl||!tp||risk<=0){toast('Lengkapi data trade dengan benar');return}const riskDistance=Math.abs(entry-sl),rewardDistance=Math.abs(tp-entry);if(!riskDistance||!rewardDistance){toast('Entry, SL, dan TP tidak boleh sama');return}const rr=rewardDistance/riskDistance;const result=$('result').value;const pnl=result==='TP'?risk*rr:-risk;trades.push({id:Date.now().toString(),pair:$('pair').value,direction,date:new Date($('tradeDate').value).toISOString(),lot:$('lot').value,entry,sl,tp,risk,result,rr,pnl,notes:$('notes').value.trim()});persist();render();hideModal();$('tradeForm').reset();calcRR();toast('Trade berhasil disimpan')});
+$('addTradeBtn').onclick=showModal;$('journalAdd').onclick=showModal;$('closeModal').onclick=hideModal;$('cancelTrade').onclick=hideModal;$('chartRange').onchange=renderChart;$('seeAll').onclick=()=>navigate('journalPage');$('goalShortcut').onclick=()=>$('monthlyGoalPanel').scrollIntoView({behavior:'smooth'});$('settingsShortcut').onclick=()=>navigate('toolsPage');$('goalInput').oninput=()=>{localStorage.setItem('arya_goal_v6',$('goalInput').value);renderGoal()};$('goalInput').value=localStorage.getItem('arya_goal_v6')||'';
+function navigate(id){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.page===id));window.scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('.nav-btn').forEach(b=>b.onclick=()=>navigate(b.dataset.page));
+$('prevMonth').onclick=()=>{calDate.setMonth(calDate.getMonth()-1);renderCalendar()};$('nextMonth').onclick=()=>{calDate.setMonth(calDate.getMonth()+1);renderCalendar()};
+$('exportCSV').onclick=()=>{const headers=['Pair','Direction','Date','Lot','Entry','SL','TP','Risk','Result','RR','P/L','Notes'];const rows=trades.map(t=>[t.pair,t.direction,t.date,t.lot,t.entry,t.sl,t.tp,t.risk,t.result,t.rr,t.pnl,t.notes]);const csv=[headers,...rows].map(r=>r.map(x=>'"'+String(x??'').replace(/"/g,'""')+'"').join(',')).join('\n');download('arya-trading-journal.csv',csv,'text/csv');};
+function download(name,content,type){const a=document.createElement('a'),u=URL.createObjectURL(new Blob([content],{type}));a.href=u;a.download=name;a.click();URL.revokeObjectURL(u)}
+$('backupBtn').onclick=()=>download('arya-journal-backup.json',JSON.stringify({trades,settings},null,2),'application/json');
+$('restoreBtn').onclick=()=>$('restoreFile').click();$('restoreFile').onchange=async e=>{try{const data=JSON.parse(await e.target.files[0].text());if(!Array.isArray(data.trades))throw Error();trades=data.trades;settings={...settings,...(data.settings||{})};persist();render();toast('Backup berhasil dipulihkan')}catch(err){toast('File backup tidak valid')}e.target.value=''};
+$('currency').value=settings.currency;$('accountName').value=settings.accountName;$('saveSettings').onclick=()=>{settings.currency=$('currency').value;settings.accountName=$('accountName').value;persist();render();toast('Pengaturan disimpan')};
+render();
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+</script>
+</body>
+</html>
